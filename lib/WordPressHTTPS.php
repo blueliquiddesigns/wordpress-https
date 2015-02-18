@@ -196,7 +196,7 @@ class WordPressHTTPS extends Mvied_Plugin_Modular {
 		);
 
 		if ( is_multisite() && is_subdomain_install() ) {
-			$multisite_hosts = $wpdb->get_col($wpdb->prepare("SELECT domain FROM %d", $wpdb->blogs));
+			$multisite_hosts = $wpdb->get_col($wpdb->prepare("SELECT domain FROM %s", $wpdb->blogs));
 			$hosts = array_merge($hosts, $multisite_hosts);
 		}
 
