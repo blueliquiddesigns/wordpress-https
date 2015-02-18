@@ -52,28 +52,30 @@ spl_autoload_register('wphttps_autoloader');
 //define('WPHTTPS_RESET', true);
 
 if ( ! defined('WP_UNINSTALL_PLUGIN') ) {
-	$wordpress_https = new WordPressHTTPS;
-	$wordpress_https->setSlug('wordpress-https');
-	$wordpress_https->setVersion('3.4.0b');
-	$wordpress_https->setLogger(Mvied_Logger::getInstance());
-	$wordpress_https->setDirectory(dirname(__FILE__));
-	$wordpress_https->setModuleDirectory(dirname(__FILE__) . '/lib/WordPressHTTPS/Module/');
-	$wordpress_https->setViewDirectory(dirname(__FILE__) . '/view/');
+	add_filter('init', function() {
+		$wordpress_https = new WordPressHTTPS;
+		$wordpress_https->setSlug('wordpress-https');
+		$wordpress_https->setVersion('3.4.0b');
+		$wordpress_https->setLogger(Mvied_Logger::getInstance());
+		$wordpress_https->setDirectory(dirname(__FILE__));
+		$wordpress_https->setModuleDirectory(dirname(__FILE__) . '/lib/WordPressHTTPS/Module/');
+		$wordpress_https->setViewDirectory(dirname(__FILE__) . '/view/');
 
-	// Load Modules
-	$wordpress_https->loadModules();
+		// Load Modules
+		$wordpress_https->loadModules();
 
-	// If WPHTTPS_RESET global is defined, reset settings
-	if ( defined('WPHTTPS_RESET') && constant('WPHTTPS_RESET') == true ) {
-		foreach($wordpress_https->getSettings() as $key => $default) {
-			$wordpress_https->setSetting($key, $default);
+		// If WPHTTPS_RESET global is defined, reset settings
+		if ( defined('WPHTTPS_RESET') && constant('WPHTTPS_RESET') == true ) {
+			foreach($wordpress_https->getSettings() as $key => $default) {
+				$wordpress_https->setSetting($key, $default);
+			}
 		}
-	}
 
-	// Initialize Plugin
-	$wordpress_https->init();
-	$wordpress_https->setPluginUrl(plugins_url('', __FILE__));
+		// Initialize Plugin
+		$wordpress_https->init();
+		$wordpress_https->setPluginUrl(plugins_url('', __FILE__));
 
-	// Register activation hook. Must be called outside of a class.
-	register_activation_hook(__FILE__, array($wordpress_https, 'install'));
+		// Register activation hook. Must be called outside of a class.
+		register_activation_hook(__FILE__, array($wordpress_https, 'install'));
+	});
 }
