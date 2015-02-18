@@ -52,7 +52,7 @@ spl_autoload_register('wphttps_autoloader');
 //define('WPHTTPS_RESET', true);
 
 if ( ! defined('WP_UNINSTALL_PLUGIN') ) {
-	add_filter('init', function() {
+	add_filter('setup_theme', function() {
 		$wordpress_https = new WordPressHTTPS;
 		$wordpress_https->setSlug('wordpress-https');
 		$wordpress_https->setVersion('3.4.0b');
